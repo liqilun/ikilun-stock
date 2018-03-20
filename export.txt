@@ -1,0 +1,41 @@
+@SuppressWarnings("unchecked")
+	@RequestMapping("/admin/bs/card/exportBsCardList.xhtml")
+	public void exportElecCardList(Long goodsid, int from, int maxnum, HttpServletResponse response) throws Exception {
+		DetachedCriteria query = DetachedCriteria.forClass(BSCard.class, "o");
+		query.add(Restrictions.eq("goodsid", goodsid));
+		query.add(Restrictions.eq("status", "Y"));
+		query.addOrder(Order.asc("addtime"));
+		List<BSCard> resultList = daoService.findByCriteria(query, from, maxnum);
+		
+		Workbook wb = new HSSFWorkbook();
+		Sheet sheet = wb.createSheet("商户卡使用情况");
+		String[] headers = new String[] {"序号", "卡号", "用户ID", "订单ID","手机", "获取时间", "状态"};
+		Row headerRow = sheet.createRow(0);
+		for(int index = 0; index < headers.length; index ++) {
+			headerRow.createCell(index).setCellValue(headers[index]);
+		}
+		for(int index = 1; index < resultList.size(); index ++) {
+			BSCard card = resultList.get(index);
+			Row row = sheet.createRow(index);
+			row.createCell(0).setCellValue(index + "");
+			row.createCell(1).setCellValue(card.getCardnum());
+			row.createCell(2).setCellValue(card.getMemberid() + "");
+			row.createCell(3).setCellValue(card.getOrderid() + "");
+			if(StringUtils.isNotBlank(card.getMobile())){
+				row.createCell(4).setCellValue(StringUtils.substring(card.getMobile(),0, 3) + "****"+StringUtils.substring(card.getMobile(), 7, 11));
+			}
+			row.createCell(5).setCellValue(card.getBindtime()+"");
+			row.createCell(6).setCellValue(card.getStatus());
+		}
+		sheet.autoSizeColumn(1);
+		sheet.autoSizeColumn(2);
+		sheet.autoSizeColumn(3);
+		sheet.autoSizeColumn(4);
+		sheet.autoSizeColumn(5);
+		sheet.autoSizeColumn(6);
+		sheet.autoSizeColumn(7);
+		response.setContentType("application/xls");
+		response.setContentType("application/x-download");
+		response.addHeader("Content-Disposition", "attachment;filename=gewara"+DateUtil.format(new Date(), "yyMMdd_HHmmss")+ ".xls");
+		wb.write(response.getOutputStream());
+	}

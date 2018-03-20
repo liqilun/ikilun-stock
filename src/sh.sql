@@ -1,0 +1,17 @@
+insert into county(citycode, briefname, countycode, countyname ) values('310000', '长宁', '310105', '长宁区');
+insert into county(citycode, briefname, countycode, countyname ) values('310000', '闸北', '310108', '闸北区');
+insert into county(citycode, briefname, countycode, countyname ) values('310000', '普陀', '310107', '普陀区');
+insert into county(citycode, briefname, countycode, countyname ) values('310000', '静安', '310106', '静安区');
+insert into county(citycode, briefname, countycode, countyname ) values('310000', '金山', '310116', '金山区');
+insert into county(citycode, briefname, countycode, countyname ) values('310000', '闵行', '310112', '闵行区');
+insert into county(citycode, briefname, countycode, countyname ) values('310000', '松江', '310117', '松江区');
+insert into county(citycode, briefname, countycode, countyname ) values('310000', '青浦', '310118', '青浦区');
+insert into county(citycode, briefname, countycode, countyname ) values('310000', '崇明', '310230', '崇明区');
+insert into county(citycode, briefname, countycode, countyname ) values('310000', '宝山', '310113', '宝山区');
+insert into county(citycode, briefname, countycode, countyname ) values('310000', '浦东', '310115', '浦东新区');
+insert into county(citycode, briefname, countycode, countyname ) values('310000', '黄浦', '310101', '黄浦区');
+insert into county(citycode, briefname, countycode, countyname ) values('310000', '徐汇', '310104', '徐汇区');
+insert into county(citycode, briefname, countycode, countyname ) values('310000', '虹口', '310109', '虹口区');
+insert into county(citycode, briefname, countycode, countyname ) values('310000', '嘉定', '310114', '嘉定区');
+insert into county(citycode, briefname, countycode, countyname ) values('310000', '杨浦', '310110', '杨浦区');
+insert into county(citycode, briefname, countycode, countyname ) values('310000', '奉贤', '310120', '奉贤区');

@@ -1,0 +1,118 @@
+<div class="modal-dialog">
+	<div class="modal-content">
+	   <div class="modal-header">
+	      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	      <h4 class="modal-title" id="myModalLabel">编辑用户</h4>
+	   </div>
+	   <form class="form-horizontal" role="form" id="dbform">
+		   <div class="modal-body">
+		   			<div class="form-group">
+				      <label for="firstname" class="col-sm-2 control-label">所在公司</label>
+				      <div class="col-sm-4">
+				         <input type="radio" name="company" value="gewara" #if($extra.company eq 'gewara')checked="checked"#end>格瓦拉
+				         <input type="radio" name="company" value="weipiao" #if($extra.company eq 'weipiao')checked="checked"#end>娱票儿
+				      </div>
+				   </div>
+				   <div class="form-group">
+				   	  <input type="hidden" name="id" id="id" value="$!user.id">
+				      <label for="firstname" class="col-sm-2 control-label">工号</label>
+				      <div class="col-sm-4">
+				         <input type="text" class="form-control" id="jobNo" name="jobNo" value="$!extra.jobNo">
+				      </div>
+				       <label for="firstname" class="col-sm-2 control-label">姓名</label>
+				      <div class="col-sm-4">
+				         <input type="text" class="form-control" value="$!user.nickname" readonly="readonly">
+				      </div>
+				   </div>
+				   <div class="form-group">
+				      <label for="firstname" class="col-sm-2 control-label">组别</label>
+				      <div class="col-sm-4">
+				         <input type="text" class="form-control" id="jobGrade" name="groupName" value="$!extra.groupName">
+				      </div>
+				       <label for="firstname" class="col-sm-2 control-label">职级</label>
+				      <div class="col-sm-4">
+				         <input type="text" class="form-control" value="$!extra.jobGrade" name="jobGrade">
+				      </div>
+				   </div>
+				   <div class="form-group">
+				      <label for="telephone" class="col-sm-2 control-label">电话</label>
+				      <div class="col-sm-10">
+				         <input type="text" class="form-control" name="mobile" value="$!user.mobile" readonly="readonly">
+				      </div>
+				   </div>
+				   <div class="form-group">
+				      <label for="lastname" class="col-sm-2 control-label">职务</label>
+				      <div class="col-sm-10">
+				         <input type="text" class="form-control" name="jobName" value="$!extra.jobName">
+				      </div>
+				   </div>
+				   <div class="form-group">
+				      <label for="lastname" class="col-sm-2 control-label">部门</label>
+				      <div class="col-sm-10">
+				         <select name="deptNo" id="deptNo" class="form-control">
+								<option value="" #if($VmUtils.isBlank($extra.deptNo))selected="selected"#end>请选择</option>
+								#foreach($depno in $deptMap.keySet())
+								<option value="$depno" #if($extra.deptNo eq $depno)selected="selected"#end>$deptMap.get($depno)</option>
+								#end
+						</select>
+						<select name="deptNoWp" id="deptNoWp" class="form-control" style="display: none;">
+						       	<option value="" #if($VmUtils.isBlank($extra.deptNoWp))selected="selected"#end>请选择</option>
+								#foreach($wpdept in $!wpdeptList)
+								<option value="$!wpdept.did" #if($!extra.deptNoWp eq $!wpdept.did)selected="selected"#end>$!wpdept.name</option>
+								#end
+						</select>
+				      </div>
+				   </div>
+				   <div class="form-group">
+				      <label for="lastname" class="col-sm-2 control-label">是否在职</label>
+				      <div class="col-sm-10">
+				         <select name="jobStatus" id="jobStatus" class="form-control">
+								<option value="Y" #if(!$!extra.jobStatus || $extra.jobStatus eq 'Y') selected="selected" #end>是</option>
+								<option value="N" #if($extra.jobStatus eq 'N') selected="selected" #end>否</option>
+							</select>
+				      </div>
+				   </div>
+				   <div class="form-group">
+				   	 <label for="lastname" class="col-sm-2 control-label">备注</label>
+				   	 <div class="col-sm-10">
+				         <textarea rows="3" cols="60" name="remark">$!{extra.remark}</textarea>
+				      </div>
+				   </div>
+		   </div>
+		   <div class="modal-footer">
+		   	  <button type="button" class="btn btn-info" id="sbtForm">提交更改 </button>
+		      <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+		   </div>
+	   </form>
+	</div>
+</div>
+<script>
+	$(document).ready(function(){
+		$('#sbtForm').click(function(){
+			jQuery.post("${basePath}admin/auth/saveUser.xhtml", $("#dbform").serialize(), function(result){
+				if(result.success){
+					window.location.reload();
+				}else {
+					alert(result.msg);
+				}
+			});
+		});
+		$('input[name=company]').click(function(){
+			var el = $(this);
+			var val = el.val();
+			deptShow(val);
+		});
+		#if($VmUtils.isNotBlank($extra.company))
+			deptShow('$extra.company');
+		#end
+	});
+	function deptShow(val){
+		if(val=='gewara'){
+			$('#deptNo').css('display','block');
+			$('#deptNoWp').css('display','none');
+		}else {
+			$('#deptNo').css('display','none');
+			$('#deptNoWp').css('display','block');
+		}
+	}
+</script>

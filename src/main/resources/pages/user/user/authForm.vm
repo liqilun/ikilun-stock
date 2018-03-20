@@ -1,0 +1,74 @@
+<div class="modal-dialog">
+	<div class="modal-content">
+	   <div class="modal-header">
+	      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	      <h4 class="modal-title" id="myModalLabel">编辑权限</h4>
+	   </div>
+	   <form class="form-horizontal" role="form" id="dbform">
+		   <div class="modal-body">
+				   <div class="form-group">
+				   	 <input type="hidden" name="id" id="id" value="$!user.id">
+				   	  <div class="col-sm-10">
+				         	此成员的级别为：<b>$!{extra.jobGrade}</b>
+				      </div>
+				      <div class="col-sm-10" style="margin-top: 8px;">
+				         <input type="checkbox" name="roles" value="salesperson" #if($extra && $extra.roleList.contains('salesperson'))checked="checked"#end>创建订单申请权
+				      </div>
+				      <div class="col-sm-10" style="margin-top: 8px;">
+				     	 <input type="checkbox" name="roles" value="leader" #if($extra && $extra.roleList.contains('leader'))checked="checked"#end>小组审批订单权
+				      </div>
+				      <div class="col-sm-10" style="margin-top: 8px;">
+				         <input type="checkbox" name="roles" value="customer" #if($extra && $extra.roleList.contains('customer'))checked="checked"#end>小组客户资料管理权
+				      </div>
+				       <div class="col-sm-10" style="margin-top: 8px;">
+				         <input type="checkbox" name="roles" value="spm" #if($extra && $extra.roleList.contains('spm'))checked="checked"#end>订单修改权
+				      </div>
+				      <div class="col-sm-10" style="margin-top: 8px;">
+				         <input type="checkbox" name="roles" value="kaipiao" #if($extra && $extra.roleList.contains('kaipiao'))checked="checked"#end>订单开票权
+				      </div>
+				      <div class="col-sm-10" style="margin-top: 8px;">
+				         <input type="checkbox" name="roles" value="shoukuan" #if($extra && $extra.roleList.contains('shoukuan'))checked="checked"#end>订单收款权
+				      </div>
+				      <div class="col-sm-10" style="margin-top: 8px;">
+				         <input type="checkbox" name="roles" value="dianshang" #if($extra && $extra.roleList.contains('dianshang'))checked="checked"#end>订单开通权
+				      </div>
+				      <div class="col-sm-10" style="margin-top: 8px;">
+				         <input type="checkbox" name="roles" value="report" #if($extra && $extra.roleList.contains('report'))checked="checked"#end>财务报表查看导出权
+				      </div>
+				       <div class="col-sm-10" style="margin-top: 8px;">
+				         <input type="checkbox" name="roles" value="custrans" #if($extra && $extra.roleList.contains('custrans'))checked="checked"#end>客户移交
+				      </div>
+				       <div class="col-sm-10" style="margin-top: 8px;">
+				         <input type="checkbox" name="roles" value="sptrans" #if($extra && $extra.roleList.contains('sptrans'))checked="checked"#end>订单移交
+				      </div>
+				      <div class="col-sm-10" style="margin-top: 8px;">
+				         <input type="checkbox" name="roles" value="cusblack" #if($extra && $extra.roleList.contains('cusblack'))checked="checked"#end>黑名单管理权
+				      </div>
+				      <div class="col-sm-10" style="margin-top: 8px;">
+				         <input type="checkbox" name="roles" value="procfg" #if($extra && $extra.roleList.contains('procfg'))checked="checked"#end>产品配置
+				      </div>
+				      <div class="col-sm-10" style="margin-top: 8px;">
+				         <input type="checkbox" name="roles" value="report" #if($extra && $extra.roleList.contains('header'))checked="checked"#end>权限管理
+				      </div>
+				   </div>
+		   </div>
+		   <div class="modal-footer">
+		   	  <button type="button" class="btn btn-info" id="sbtForm">提交更改 </button>
+		      <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+		   </div>
+	   </form>
+	</div>
+</div>
+<script>
+	$(document).ready(function(){
+		$('#sbtForm').click(function(){
+			jQuery.post("${basePath}admin/auth/saveAuth.xhtml", $("#dbform").serialize(), function(result){
+				if(result.success){
+					window.location.reload();
+				}else {
+					alert(result.msg);
+				}
+			});
+		});
+	});
+</script>
